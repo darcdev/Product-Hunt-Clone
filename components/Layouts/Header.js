@@ -7,8 +7,8 @@ import { css } from "@emotion/react";
 import Boton from "../ui/Boton";
 
 const ContenedorHeader = styled.div`
-  max-width: 1200px;
   width: 95%;
+  max-width: 1200px;
   margin: 0 auto;
   @media (min-width: 768px) {
     display: flex;
