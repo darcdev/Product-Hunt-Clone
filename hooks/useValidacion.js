@@ -11,15 +11,19 @@ const useValidacion = (stateInicial, validar, fn) => {
       if (noErrores) {
         fn(); // Funcion que se ejecuta en el componente
       }
-
       guardarSubmitForm(false);
     }
-  }, []);
+  }, [errores]);
   // cuando el usuario escribe algo
   const handleChange = (e) => {
     guardarValores({
       [e.target.name]: e.target.value,
     });
+  };
+  // cuando el usuario sale de un campo
+  const handleBlur = () => {
+    const erroresValidacion = validar(valores);
+    guardarErrores(erroresValidacion);
   };
   // cuando el usuario hace submit
   const handleSubmit = (e) => {
@@ -29,7 +33,14 @@ const useValidacion = (stateInicial, validar, fn) => {
     guardarSubmitForm(true);
   };
 
-  return { valores, errores, submitForm, handleChange, handleSubmit };
+  return {
+    valores,
+    errores,
+    submitForm,
+    handleChange,
+    handleSubmit,
+    handleBlur,
+  };
 };
 
 export default useValidacion;
