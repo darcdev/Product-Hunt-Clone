@@ -17,6 +17,7 @@ const useValidacion = (stateInicial, validar, fn) => {
   // cuando el usuario escribe algo
   const handleChange = (e) => {
     guardarValores({
+      ...valores,
       [e.target.name]: e.target.value,
     });
   };
