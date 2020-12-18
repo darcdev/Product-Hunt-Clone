@@ -53,7 +53,7 @@ const Layout = ({ children }) => {
         `}
       />
       <Head>
-        <html lang="es" />
+        <html lang="en" />
         <title>Product Hunt</title>
         <link
           rel="stylesheet"
