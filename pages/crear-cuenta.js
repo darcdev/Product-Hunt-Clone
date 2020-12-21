@@ -39,7 +39,7 @@ const CrearCuenta = () => {
       await firebase.registrar(nombre, email, password);
       Router.push("/");
     } catch (error) {
-      console.error("Hub un error al crear el usuario", error.message);
+      console.error("Hubo un error al crear el usuario", error.message);
       guardarError(error.message);
     }
   }
