@@ -31,19 +31,6 @@ const Producto = () => {
 
   const { usuario, firebase } = useContext(FirebaseContext);
 
-  const {
-    comentarios,
-    creado,
-    creador,
-    descripcion,
-    empresa,
-    nombre,
-    url,
-    urlimagen,
-    votos,
-  } = producto;
-
-  console.log(producto);
   useEffect(() => {
     if (id) {
       const obtenerProducto = async () => {
@@ -59,9 +46,48 @@ const Producto = () => {
       };
       obtenerProducto();
     }
-  }, [id]);
+  }, [id, producto]);
 
   if (Object.keys(producto).length === 0) return <h1>Cargando...</h1>;
+
+  const {
+    comentarios,
+    creado,
+    creador,
+    descripcion,
+    empresa,
+    nombre,
+    url,
+    urlimagen,
+    haVotado,
+    votos,
+  } = producto;
+
+  const votarProducto = async () => {
+    if (!usuario) {
+      return router.push("/login");
+    }
+    // obtener y sumar un nuevo voto
+    const nuevoTotal = votos + 1;
+
+    // verificar si el usuario actual ha votado
+    if (haVotado.includes(usuario.uid)) return;
+
+    // guardar el ID del usuario que ha votado
+
+    const hanVotado = [...haVotado, usuario.uid];
+
+    // Actualizar base de datos
+    await firebase.db
+      .collection("productos")
+      .doc(id)
+      .update({ votos: nuevoTotal, haVotado: hanVotado });
+    // actualizar state
+    guardarProducto({
+      ...producto,
+      votos: nuevoTotal,
+    });
+  };
 
   return (
     <Layout>
@@ -129,7 +155,7 @@ const Producto = () => {
                 `}
               >
                 <p css={css`text-align : center}`}>{votos} votos</p>
-                {usuario && <Boton>Votar</Boton>}
+                {usuario && <Boton onClick={votarProducto}>Votar</Boton>}
               </div>
             </aside>
           </ContenedorProducto>
